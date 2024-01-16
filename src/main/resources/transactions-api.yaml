@@ -1,0 +1,102 @@
+openapi: "3.0.3"
+info:
+  version: 1.0.0
+  title: transactions-api
+  description: REST API definition for transactions microservice
+  contact:
+    name: Viczai Gábor
+    email: gviczai@gmail.com
+servers:
+  - url: http://localhost:3000
+paths:
+  '/transactions':
+    get:
+      summary: |
+        Get all transactions (bad idea - paging or other filter query parameter would be nice)
+      tags:
+        - transaction
+      operationId: readTransactions
+      responses:
+        '200':
+          $ref: "#/components/responses/TransactionListResponse"
+    post:
+      summary: |
+        Store a new transaction record
+      tags:
+        - transaction
+      operationId: createTransaction
+      requestBody:
+        $ref: "#/components/requestBodies/TransactionRequest"
+      responses:
+        '200':
+          $ref: "#/components/responses/TransactionResponse"
+  '/transactions/{id}':
+    put:
+      summary: |
+        Update an existing transaction record
+      tags:
+        - transaction
+      operationId: updateTransaction
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        $ref: "#/components/requestBodies/TransactionRequest"
+      responses:
+        '200':
+          $ref: "#/components/responses/TransactionResponse"
+        '400':
+          description: "Bad request. Id not found. (TODO: should be 404 or 409 - the request itself is correct, repeatable without modification)"
+components:
+  requestBodies:
+    TransactionRequest:
+      description: Raw transaction data
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TransactionData'
+  responses:
+    TransactionListResponse:
+      description: transaction details
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TransactionList'
+    TransactionResponse:
+      description: transaction details
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Transaction'
+  schemas:
+    TransactionData:
+      type: string
+    TransactionList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Transaction'
+    Transaction:
+      type: object
+      properties:
+        data:
+          type: string
+          description: raw transaction data
+          example: '{ "amount": 100, "reference": "BM_2023_101" }'
+        amount:
+          type: integer
+          format: int32
+          description: extracted value from data
+          example: 100
+        reference:
+          type: string
+          description: extracted value from data
+          example: "BM_2023_101"
+      required:
+        - data
+        - amount
+        - reference
