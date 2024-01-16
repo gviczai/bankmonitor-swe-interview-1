@@ -16,28 +16,28 @@ import jakarta.persistence.EntityNotFoundException;
 @RequestMapping("/")
 public class TransactionController implements TransactionApi {
 
-    private TransactionService transactionService;
+  private TransactionService transactionService;
 
-    @Autowired
-    public void setTransactionService(TransactionService transactionService) {
-        this.transactionService = transactionService;
-    }
+  @Autowired
+  public void setTransactionService(TransactionService transactionService) {
+      this.transactionService = transactionService;
+  }
 
-    public ResponseEntity<List<TransactionDto>> _readTransactions() {
-        return ResponseEntity.ok(transactionService.read());
-    }
+  public ResponseEntity<List<TransactionDto>> _readTransactions() {
+      return ResponseEntity.ok(transactionService.read());
+  }
 
-    public ResponseEntity<TransactionDto> _createTransaction(String jsonData) {
-        return ResponseEntity.ok(transactionService.create(jsonData));
-    }
+  public ResponseEntity<TransactionDto> _createTransaction(String jsonData) {
+      return ResponseEntity.ok(transactionService.create(jsonData));
+  }
 
-    public ResponseEntity<TransactionDto> _updateTransaction(Long id, String jsonData) {
+  public ResponseEntity<TransactionDto> _updateTransaction(Long id, String jsonData) {
 
-        try { 
-            return ResponseEntity.ok(transactionService.update(id, jsonData));
-        }
-        catch (EntityNotFoundException e) {
-            return ResponseEntity.badRequest().build();
-        }
-    }
+      try { 
+          return ResponseEntity.ok(transactionService.update(id, jsonData));
+      }
+      catch (EntityNotFoundException e) {
+          return ResponseEntity.badRequest().build();
+      }
+  }
 }

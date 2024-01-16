@@ -6,12 +6,12 @@ import bankmonitor.api.model.TransactionDto;
 
 public interface TransactionService {
 
-    String REFERENCE_KEY = "reference";
+  String REFERENCE_KEY = "reference";
 
-    TransactionDto create(String jsonData);
+  TransactionDto create(String jsonData);
 
-    List<TransactionDto> read();
+  List<TransactionDto> read();
 
-    TransactionDto update(Long id, String jsonData);
+  TransactionDto update(Long id, String jsonData);
 
 }

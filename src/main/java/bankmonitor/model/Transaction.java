@@ -26,65 +26,63 @@ import jakarta.persistence.Table;
 @Table(name = "transaction")
 public class Transaction {
 
-	public static final String REFERENCE_KEY = "reference";
+  public static final String REFERENCE_KEY = "reference";
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
 
-	/*
-	 TODO: Timestamps should be stored as UTC - if one uses localdatetime,
-	 Europe/Budapest times will be stored in db, which will cause malfunction
-	 around the time skips at daylight saving changes
-	 because the daylight information is lost. (The time range 02:00-03:00 is
-	 repeated twice in the autumn,
-	 so for example a 02:13 database value is ambiguous.)
-	 Other systems may also have problems when interpreting data read from
-	 database.
-	 If localdatetime is stored in the db, an additional column is required to
-	 store whether it is 02:13 CEST or 02:13 CET.
-	 However, storing UTC is straightforward, simply use OffsetDateTime as
-	 datatype, the db driver will handle the necessary conversion.
-	 Probably zoneddatetime is sufficient enough for the driver, but
-	 offsetdatetime is the de facto standard preferred both by json and xml,
-	 so it is the best to stick to that everywhere.
-	
-	 private OffsetDateTime timestamp; // timeStamp =
-	 Instant.now().atZone(ZoneId.of("Europe/Budapest")).toOffsetDateTime();
-	*/
-	@Column(name = "created_at")
-	private LocalDateTime timestamp;
+  /*
+  TODO: Timestamps should be stored as UTC - if one uses localdatetime,
+  Europe/Budapest times will be stored in db, which will cause malfunction
+  around the time skips at daylight saving changes because the daylight
+  information is lost. (The time range 02:00-03:00 is repeated twice
+  in the autumn, so for example a 02:13 database value is ambiguous.)
+  Other systems may also have problems when interpreting data read from
+  database.
+  If localdatetime is stored in the db, an additional column is required to
+  store whether it is 02:13 CEST or 02:13 CET.
+  However, storing UTC is straightforward, simply use OffsetDateTime as the
+  datatype, the db driver will handle the necessary conversion.
+  Probably zoneddatetime is sufficient enough for the driver, but
+  offsetdatetime is the de facto standard preferred both by json and xml,
+  so it is the best to stick to that everywhere.
 
-	@Column(name = "data")
-	private String data;
+     private OffsetDateTime timestamp; // timeStamp = Instant.now().atZone(ZoneId.of("Europe/Budapest")).toOffsetDateTime();
+  */
+  @Column(name = "created_at")
+  private LocalDateTime timestamp;
 
-	public int getId() {
-		return this.id;
-	}
+  @Column(name = "data")
+  private String data;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+  public int getId() {
+      return this.id;
+  }
 
-	public LocalDateTime getTimestamp() {
-		return timestamp;
-	}
+  public void setId(int id) {
+      this.id = id;
+  }
 
-	public void setTimestamp(LocalDateTime timestamp) {
-		this.timestamp = timestamp;
-	}
+  public LocalDateTime getTimestamp() {
+      return timestamp;
+  }
 
-	public String getData() {
-		return this.data;
-	}
+  public void setTimestamp(LocalDateTime timestamp) {
+      this.timestamp = timestamp;
+  }
 
-	public void setData(String data) {
-		this.data = data;
-	}
+  public String getData() {
+      return this.data;
+  }
 
-	public Transaction data(String data) {
-		this.data=data;
-		return this;
-	}
+  public void setData(String data) {
+      this.data = data;
+  }
+
+  public Transaction data(String data) {
+      this.data=data;
+      return this;
+  }
 
 }
