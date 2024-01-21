@@ -5,6 +5,7 @@ server:
   port: 3000
 
   datasource:
+    #Note: One can overwrite this default value by setting SERVER_DATASOURCE_URL env variable. Same applies for username.
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     #please create a secret containing the user password and set the PGPASSFILE env variable in the docker compose file
